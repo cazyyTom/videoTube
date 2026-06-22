@@ -25,67 +25,67 @@
 videotube/
 ├──frontend
 ├──backend
-├── public/
-│   └── temp/                        # Multer temp files (auto-cleaned)
-├── src/
-│   ├── config/
-│   │   ├── constants.js             # Enums, cookie options, folder names
-│   │   └── cloudinary.js            # Cloudinary upload/delete helpers
-│   ├── controllers/
-│   │   ├── auth.controller.js       # Register, login, logout, forgot/reset password…
-│   │   ├── video.controller.js      # Upload, view (auto-increment), CRUD
-│   │   ├── comment.controller.js    # Add, edit, delete comments
-│   │   ├── playlist.controller.js   # Create, manage, add/remove videos
-│   │   ├── like.controller.js       # Toggle like on video/comment/post
-│   │   ├── communityPost.controller.js
-│   │   ├── subscription.controller.js
-│   │   ├── dashboard.controller.js  # Channel stats, videos, public profile
-│   │   └── healthcheck.controller.js
-│   ├── db/
-│   │   └── index.js                 # MongoDB Atlas connection
-│   ├── middlewares/
-│   │   ├── auth.middleware.js       # JWT verification
-│   │   ├── multer.middleware.js     # File upload (image + video presets)
-│   │   └── errorHandler.middleware.js
-│   ├── models/
-│   │   ├── user.model.js
-│   │   ├── video.model.js
-│   │   ├── comment.model.js
-│   │   ├── playlist.model.js
-│   │   ├── like.model.js
-│   │   ├── communityPost.model.js
-│   │   └── subscription.model.js
-│   ├── routes/
-│   │   ├── auth.routes.js
-│   │   ├── video.routes.js
-│   │   ├── comment.routes.js
-│   │   ├── playlist.routes.js
-│   │   ├── like.routes.js
-│   │   ├── communityPost.routes.js
-│   │   ├── subscription.routes.js
-│   │   ├── dashboard.routes.js
-│   │   └── healthcheck.routes.js
-│   ├── utils/
-│   │   ├── ApiError.js
-│   │   ├── ApiResponse.js
-│   │   ├── asyncHandler.js
-│   │   ├── generateTokens.js
-│   │   └── mailer.js               # Nodemailer + Mailgen templates
-│   ├── validators/
-│   │   ├── validate.js             # express-validator result handler
-│   │   ├── auth.validator.js
-│   │   ├── video.validator.js
-│   │   ├── comment.validator.js
-│   │   ├── playlist.validator.js
-│   │   └── communityPost.validator.js
-│   ├── app.js
-│   └── index.js
-├── .env.example
-├── .gitignore
-├── .prettierignore
-├── .prettierrc
-├── package-lock.json
-└── package.json
+       ├── public/
+       │   └── temp/                        # Multer temp files (auto-cleaned)
+       ├── src/
+       │   ├── config/
+       │   │   ├── constants.js             # Enums, cookie options, folder        names
+       │   │   └── cloudinary.js            # Cloudinary upload/delete helpers
+       │   ├── controllers/
+       │   │   ├── auth.controller.js       # Register, login, logout, forgot/       reset password…
+       │   │   ├── video.controller.js      # Upload, view (auto-increment),        CRUD
+       │   │   ├── comment.controller.js    # Add, edit, delete comments
+       │   │   ├── playlist.controller.js   # Create, manage, add/remove videos
+       │   │   ├── like.controller.js       # Toggle like on video/comment/post
+       │   │   ├── communityPost.controller.js
+       │   │   ├── subscription.controller.js
+       │   │   ├── dashboard.controller.js  # Channel stats, videos, public        profile
+       │   │   └── healthcheck.controller.js
+       │   ├── db/
+       │   │   └── index.js                 # MongoDB Atlas connection
+       │   ├── middlewares/
+       │   │   ├── auth.middleware.js       # JWT verification
+       │   │   ├── multer.middleware.js     # File upload (image + video        presets)
+       │   │   └── errorHandler.middleware.js
+       │   ├── models/
+       │   │   ├── user.model.js
+       │   │   ├── video.model.js
+       │   │   ├── comment.model.js
+       │   │   ├── playlist.model.js
+       │   │   ├── like.model.js
+       │   │   ├── communityPost.model.js
+       │   │   └── subscription.model.js
+       │   ├── routes/
+       │   │   ├── auth.routes.js
+       │   │   ├── video.routes.js
+       │   │   ├── comment.routes.js
+       │   │   ├── playlist.routes.js
+       │   │   ├── like.routes.js
+       │   │   ├── communityPost.routes.js
+       │   │   ├── subscription.routes.js
+       │   │   ├── dashboard.routes.js
+       │   │   └── healthcheck.routes.js
+       │   ├── utils/
+       │   │   ├── ApiError.js
+       │   │   ├── ApiResponse.js
+       │   │   ├── asyncHandler.js
+       │   │   ├── generateTokens.js
+       │   │   └── mailer.js               # Nodemailer + Mailgen templates
+       │   ├── validators/
+       │   │   ├── validate.js             # express-validator result handler
+       │   │   ├── auth.validator.js
+       │   │   ├── video.validator.js
+       │   │   ├── comment.validator.js
+       │   │   ├── playlist.validator.js
+       │   │   └── communityPost.validator.js
+       │   ├── app.js
+       │   └── index.js
+       ├── .env.example
+       ├── .gitignore
+       ├── .prettierignore
+       ├── .prettierrc
+       ├── package-lock.json
+       └── package.json
 ```
 
 ---
