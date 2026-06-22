@@ -1,7 +1,7 @@
-# VideoTube Backend
+# Project - VideoTube 
 
 > **Author: Devesh Tanwar**  
-> A production-ready YouTube clone backend built with Node.js, Express, MongoDB Atlas & Cloudinary.
+> A production-ready YouTube clone built with MERN & Cloudinary.
 
 ---
 
@@ -23,6 +23,8 @@
 
 ```
 videotube/
+├──frontend
+├──backend
 ├── public/
 │   └── temp/                        # Multer temp files (auto-cleaned)
 ├── src/
@@ -80,6 +82,9 @@ videotube/
 │   └── index.js
 ├── .env.example
 ├── .gitignore
+├── .prettierignore
+├── .prettierrc
+├── package-lock.json
 └── package.json
 ```
 
@@ -89,11 +94,11 @@ videotube/
 
 ```bash
 # 1. Clone & install
-git clone <repo-url> && cd videotube
+git clone <repo-url> && cd videoTube
 npm install
 
 # 2. Set up env
-cp .env.example .env
+cp .env
 # Fill in all values in .env
 
 # 3. Run dev server

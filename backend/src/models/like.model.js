@@ -34,8 +34,8 @@ const likeSchema = new Schema(
 );
 
 // Prevent a user from liking the same target twice
-likeSchema.index({ video,         likedBy: 1 }, { unique: true, sparse: true });
-likeSchema.index({ comment,       likedBy: 1 }, { unique: true, sparse: true });
-likeSchema.index({ communityPost, likedBy: 1 }, { unique: true, sparse: true });
+likeSchema.index({ video:        1, likedBy: 1 }, { unique: true, sparse: true });
+likeSchema.index({ comment:      1, likedBy: 1 }, { unique: true, sparse: true });
+likeSchema.index({ communityPost: 1, likedBy: 1 }, { unique: true, sparse: true });
 
 export const Like = mongoose.model("Like", likeSchema);

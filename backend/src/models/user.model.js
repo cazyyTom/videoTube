@@ -50,7 +50,6 @@ const userSchema = new Schema(
 );
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
-// Mongoose v7+ async hooks: do NOT use next(), just return the promise
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 12);
@@ -80,7 +79,7 @@ userSchema.methods.generateRefreshToken = function () {
 userSchema.methods.generateTemporaryToken = function () {
   const unhashedToken = crypto.randomBytes(32).toString("hex");
   const hashedToken   = crypto.createHash("sha256").update(unhashedToken).digest("hex");
-  const tokenExpiry   = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  const tokenExpiry   = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
   return { unhashedToken, hashedToken, tokenExpiry };
 };
 
