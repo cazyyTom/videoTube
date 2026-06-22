@@ -43,8 +43,18 @@ export const registerUser = asyncHandler(async (req, res) => {
     );
     if (uploaded) avatar = { url: uploaded.secure_url, publicId: uploaded.public_id };
   }
+  // Upload cover if provided
+  let cover = { url: "", publicId: "" };
+  if (req.file) {
+    const uploaded = await uploadOnCloudinary(
+      req.file.path,
+      CLOUDINARY_FOLDERS.COVERS,
+      "image"
+    );
+    if (uploaded) cover = { url: uploaded.secure_url, publicId: uploaded.public_id };
+  }
 
-  const user = await User.create({ username, email, password, avatar });
+  const user = await User.create({ username, email, password, avatar, cover });
 
   // Generate email verification token
   const { unhashedToken, hashedToken, tokenExpiry } = user.generateTemporaryToken();

@@ -17,7 +17,7 @@ import {
   resendVerificationEmail,
 } from "../controllers/auth.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { uploadAvatar } from "../middlewares/multer.middleware.js";
+import { uploadAvatarandCover } from '../middlewares/multer.middleware.js';
 import {
   registerValidator,
   loginValidator,
@@ -31,7 +31,13 @@ import { validate } from "../validators/validate.js";
 const router = Router();
 
 // ─── Public ───────────────────────────────────────────────────────────────────
-router.post("/register",       uploadAvatar, registerValidator,       validate, registerUser);
+router.post(
+  '/register',
+  uploadAvatarandCover,
+  registerValidator,
+  validate,
+  registerUser,
+);
 router.post("/login",                        loginValidator,           validate, loginUser);
 router.post("/refresh-token",                                                   refreshAccessToken);
 router.get( "/verify-email/:verificationToken",                                 verifyEmail);
@@ -46,7 +52,7 @@ router.get(   "/me",                                                            
 router.post(  "/resend-verification",                                                  resendVerificationEmail);
 router.patch( "/change-password", changePasswordValidator,  validate,                  changePassword);
 router.patch( "/change-username", changeUsernameValidator,  validate,                  changeUsername);
-router.patch( "/avatar",          uploadAvatar,                                        updateAvatar);
+router.patch('/avatar', uploadAvatarandCover, updateAvatar);
 router.get(   "/watch-history",                                                        getWatchHistory);
 router.delete("/watch-history",                                                        clearWatchHistory);
 router.delete("/account",                                                              deleteAccount);

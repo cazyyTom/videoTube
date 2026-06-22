@@ -34,7 +34,10 @@ export const upload = multer({
 });
 
 // Specific upload presets for convenience
-export const uploadAvatar    = upload.single("avatar");
+export const uploadAvatarandCover    = upload.fields([
+  { name: "avatar", maxCount: 1 },
+  { name: "cover", maxCount: 1 }
+]);
 export const uploadVideoFiles = upload.fields([
   { name: "videoFile", maxCount: 1 },
   { name: "thumbnail", maxCount: 1 },

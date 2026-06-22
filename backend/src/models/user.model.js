@@ -30,6 +30,10 @@ const userSchema = new Schema(
       url:      { type: String, default: "" },
       publicId: { type: String, default: "" },
     },
+    cover: {
+      url:      { type: String, default: "" },
+      publicId: { type: String, default: "" },
+    },
     viewHistory: [
       {
         type: Schema.Types.ObjectId,
