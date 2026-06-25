@@ -43,18 +43,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     );
     if (uploaded) avatar = { url: uploaded.secure_url, publicId: uploaded.public_id };
   }
-  // Upload cover if provided
-  let cover = { url: "", publicId: "" };
-  if (req.file) {
-    const uploaded = await uploadOnCloudinary(
-      req.file.path,
-      CLOUDINARY_FOLDERS.COVERS,
-      "image"
-    );
-    if (uploaded) cover = { url: uploaded.secure_url, publicId: uploaded.public_id };
-  }
-
-  const user = await User.create({ username, email, password, avatar, cover });
+  const user = await User.create({ username, email, password, avatar });
 
   // Generate email verification token
   const { unhashedToken, hashedToken, tokenExpiry } = user.generateTemporaryToken();
@@ -325,4 +314,100 @@ export const deleteAccount = asyncHandler(async (req, res) => {
     .clearCookie("accessToken",  cookieOptions)
     .clearCookie("refreshToken", cookieOptions)
     .json(new ApiResponse(200, {}, "Account deleted successfully"));
+});
+// ─── Upload Cover Image  ──────────────────────
+export const uploadCoverImage = asyncHandler(async (req, res) => {
+  if (!req.file) throw new ApiError(400, "Cover image file is required");
+
+  const currentUser = await User.findById(req.user._id);
+
+  // If a cover image already exists, refuse — tell them to use the update endpoint
+  if (currentUser.coverImage?.publicId) {
+    throw new ApiError(
+      409,
+      "Cover image already exists. Use PATCH /cover-image to replace it."
+    );
+  }
+
+  const uploaded = await uploadOnCloudinary(
+    req.file.path,
+    CLOUDINARY_FOLDERS.COVER_IMAGES,
+    "image"
+  );
+  if (!uploaded) throw new ApiError(500, "Failed to upload cover image");
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        coverImage: {
+          url:      uploaded.secure_url,
+          publicId: uploaded.public_id,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, { user }, "Cover image uploaded successfully"));
+});
+
+// ─── Update Cover Image (replace existing) ────────────────────────────────────
+export const updateCoverImage = asyncHandler(async (req, res) => {
+  if (!req.file) throw new ApiError(400, "Cover image file is required");
+
+  const currentUser = await User.findById(req.user._id);
+
+  // Delete the old cover from Cloudinary before uploading the new one
+  // This prevents orphaned files accumulating in your Cloudinary account
+  if (currentUser.coverImage?.publicId) {
+    await deleteFromCloudinary(currentUser.coverImage.publicId, "image");
+  }
+
+  const uploaded = await uploadOnCloudinary(
+    req.file.path,
+    CLOUDINARY_FOLDERS.COVER_IMAGES,
+    "image"
+  );
+  if (!uploaded) throw new ApiError(500, "Failed to upload cover image");
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        coverImage: {
+          url:      uploaded.secure_url,
+          publicId: uploaded.public_id,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { user }, "Cover image updated successfully"));
+});
+
+// ─── Delete Cover Image ───────────────────────────────────────────────────────
+export const deleteCoverImage = asyncHandler(async (req, res) => {
+  const currentUser = await User.findById(req.user._id);
+
+  if (!currentUser.coverImage?.publicId) {
+    throw new ApiError(404, "No cover image to delete");
+  }
+
+  await deleteFromCloudinary(currentUser.coverImage.publicId, "image");
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { coverImage: { url: "", publicId: "" } } },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { user }, "Cover image deleted successfully"));
 });

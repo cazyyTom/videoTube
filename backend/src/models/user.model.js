@@ -7,7 +7,7 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      required: [true, "Username is required"],
+      required: [true, 'Username is required'],
       unique: true,
       lowercase: true,
       trim: true,
@@ -15,42 +15,42 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
       lowercase: true,
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: [8, "Password must be at least 8 characters"],
+      required: [true, 'Password is required'],
+      minlength: [8, 'Password must be at least 8 characters'],
       select: false,
     },
     avatar: {
-      url:      { type: String, default: "" },
-      publicId: { type: String, default: "" },
+      url: { type: String, default: '' },
+      publicId: { type: String, default: '' },
     },
-    cover: {
-      url:      { type: String, default: "" },
-      publicId: { type: String, default: "" },
+    coverImage: {
+      url: { type: String, default: '' },
+      publicId: { type: String, default: '' },
     },
     viewHistory: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Video",
+        ref: 'Video',
       },
     ],
     isEmailVerified: {
       type: Boolean,
       default: false,
     },
-    emailVerificationToken:  { type: String, select: false },
-    emailVerificationExpiry: { type: Date,   select: false },
-    forgotPasswordToken:     { type: String, select: false },
-    forgotPasswordExpiry:    { type: Date,   select: false },
-    refreshToken:            { type: String, select: false },
+    emailVerificationToken: { type: String, select: false },
+    emailVerificationExpiry: { type: Date, select: false },
+    forgotPasswordToken: { type: String, select: false },
+    forgotPasswordExpiry: { type: Date, select: false },
+    refreshToken: { type: String, select: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────

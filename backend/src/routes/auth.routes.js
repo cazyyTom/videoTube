@@ -8,6 +8,9 @@ import {
   changePassword,
   changeUsername,
   updateAvatar,
+  uploadCoverImage,
+  updateCoverImage,
+  deleteCoverImage,
   getWatchHistory,
   clearWatchHistory,
   forgotPassword,
@@ -15,9 +18,14 @@ import {
   deleteAccount,
   verifyEmail,
   resendVerificationEmail,
-} from "../controllers/auth.controller.js";
+} from '../controllers/auth.controller.js';
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { uploadAvatarandCover } from '../middlewares/multer.middleware.js';
+import { 
+  uploadAvatar,
+  uploadCoverImage as multerCoverImage, // renamed to avoid clash with controller export
+  handleMulterError,
+}  from '../middlewares/multer.middleware.js';
+
 import {
   registerValidator,
   loginValidator,
@@ -33,7 +41,7 @@ const router = Router();
 // ─── Public ───────────────────────────────────────────────────────────────────
 router.post(
   '/register',
-  uploadAvatarandCover,
+  uploadAvatar,
   registerValidator,
   validate,
   registerUser,
@@ -43,6 +51,12 @@ router.post("/refresh-token",                                                   
 router.get( "/verify-email/:verificationToken",                                 verifyEmail);
 router.post("/forgot-password",              forgotPasswordValidator,  validate, forgotPassword);
 router.post("/reset-password/:resetToken",   resetPasswordValidator,   validate, resetPassword);
+// Cover Image
+// POST   → upload for the first time (returns 409 if one already exists)
+// PATCH  → replace existing cover image (deletes old from Cloudinary first)
+// DELETE → remove cover image entirely
+router.post(  "/cover-image",      multerCoverImage,         handleMulterError,              uploadCoverImage);
+
 
 // ─── Protected ────────────────────────────────────────────────────────────────
 router.use(verifyJWT);
@@ -52,7 +66,14 @@ router.get(   "/me",                                                            
 router.post(  "/resend-verification",                                                  resendVerificationEmail);
 router.patch( "/change-password", changePasswordValidator,  validate,                  changePassword);
 router.patch( "/change-username", changeUsernameValidator,  validate,                  changeUsername);
-router.patch('/avatar', uploadAvatarandCover, updateAvatar);
+router.patch('/avatar', uploadAvatar, updateAvatar);
+router.patch(
+  '/cover-image',
+  multerCoverImage,
+  handleMulterError,
+  updateCoverImage,
+);
+router.delete('/cover-image', deleteCoverImage);
 router.get(   "/watch-history",                                                        getWatchHistory);
 router.delete("/watch-history",                                                        clearWatchHistory);
 router.delete("/account",                                                              deleteAccount);
